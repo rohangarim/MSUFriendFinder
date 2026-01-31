@@ -1,26 +1,171 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fdfdfd;
+  --foreground: #1c2a26;
+  --msu-green: #18453b;
+  --msu-green-light: #2d6a58;
+  --msu-accent: #c084fc;
+  /* Subtle purple for gold-like prestige feel */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --shadow-prestige: 0 20px 40px -15px rgba(24, 69, 59, 0.15);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-msu-green: var(--msu-green);
+  --color-msu-green-light: var(--msu-green-light);
+  --color-msu-accent: var(--msu-accent);
+  --font-sans: 'Outfit', var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0d1311;
+    --foreground: #f0f4f3;
+    --glass-bg: rgba(13, 19, 17, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --shadow-prestige: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Gradients */
+@utility bg-msu-gradient {
+  background: linear-gradient(135deg, var(--msu-green) 0%, var(--msu-green-light) 100%);
+}
+
+@utility text-prestige-gradient {
+  background: linear-gradient(135deg, #18453b 0%, #2d6a58 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glassmorphism */
+@utility glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-prestige);
+}
+
+@utility glass-nav {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Premium Components */
+@utility btn-prestige {
+  @apply relative overflow-hidden px-6 py-2.5 rounded-xl font-bold transition-all duration-300 transform hover:scale-[1.02] active:scale-95 shadow-lg hover:shadow-xl flex items-center justify-center gap-2;
+  background: linear-gradient(135deg, var(--msu-green) 0%, var(--msu-green-light) 100%);
+  color: white;
+
+  &::after {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  &:hover::after {
+    @apply opacity-100;
+  }
+}
+
+@utility btn-secondary-prestige {
+  @apply glass-panel px-6 py-2.5 rounded-xl font-black transition-all duration-300 hover:bg-msu-green/5 text-msu-green flex items-center justify-center gap-2 border-msu-green/10;
+}
+
+@utility card-prestige {
+  @apply glass-panel rounded-3xl p-8 transition-all duration-500 hover:translate-y-[-4px];
+}
+
+@utility input-prestige {
+  @apply w-full px-5 py-3 rounded-xl bg-white/5 border border-gray-200/50 focus:ring-4 focus:ring-msu-green/20 focus:border-msu-green outline-none transition-all duration-300 backdrop-blur-sm;
+}
+
+@utility alert-success-prestige {
+  @apply px-6 py-4 rounded-2xl text-sm font-black mb-8 animate-fade-in border flex items-center gap-3 backdrop-blur-xl;
+  background: rgba(45, 106, 88, 0.1);
+  border-color: rgba(45, 106, 88, 0.2);
+  color: #4ade80;
+  /* Vibrant green for high contrast */
+}
+
+@utility alert-error-prestige {
+  @apply px-6 py-4 rounded-2xl text-sm font-black mb-8 animate-fade-in border flex items-center gap-3 backdrop-blur-xl;
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  /* Vibrant red for high contrast */
+}
+
+@utility chip-prestige {
+  @apply inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase bg-msu-green/10 text-msu-green border border-msu-green/10 transition-all duration-300 hover:bg-msu-green hover:text-white;
+}
+
+@utility chip-prestige-active {
+  @apply bg-msu-green text-white border-transparent shadow-md;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-fade-in {
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@utility reveal-delay-1 {
+  animation-delay: 0.1s;
+}
+
+@utility reveal-delay-2 {
+  animation-delay: 0.2s;
+}
+
+@utility reveal-delay-3 {
+  animation-delay: 0.3s;
+}
+
+/* Existing class fallbacks for compatibility during transition */
+.btn-primary {
+  @apply btn-prestige;
+}
+
+.btn-secondary {
+  @apply btn-secondary-prestige;
+}
+
+.input-field {
+  @apply input-prestige;
+}
+
+.chip {
+  @apply chip-prestige;
+}
+
+.chip-selected {
+  @apply chip-prestige chip-prestige-active;
 }
