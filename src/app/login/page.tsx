@@ -76,8 +76,9 @@ export default function LoginPage() {
     }
 
     // Redirect to the session link provided by the bridge
-    router.push(data.redirectUrl || '/discover')
-    router.refresh()
+    // Use window.location.href instead of router.push to ensure a hard navigation
+    // This guarantees that the Set-Cookie headers from the magic link are accepted by the browser
+    window.location.href = data.redirectUrl || '/discover'
   }
 
   const handlePasswordLogin = async (e: React.FormEvent) => {
