@@ -1,5 +1,8 @@
 'use client'
 
+// Force dynamic rendering - this page uses Supabase which requires runtime env vars
+export const dynamic = 'force-dynamic'
+
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
