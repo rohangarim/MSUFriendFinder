@@ -47,6 +47,7 @@ export default function LoginPage() {
     }
 
     setStep('otp')
+    // HACKATHON MODE: Always show code if returned, regardless of success message
     if (data.debugCode) {
       setMessage(`Hackathon Mode Code: ${data.debugCode}`)
     } else {

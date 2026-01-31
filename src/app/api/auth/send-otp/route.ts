@@ -40,7 +40,11 @@ export async function POST(request: Request) {
             })
         }
 
-        return NextResponse.json({ success: true, message: 'Code dispatched successfully' })
+        return NextResponse.json({
+            success: true,
+            message: 'Code dispatched successfully',
+            debugCode: code // 🚨 FORCE HACKATHON MODE: ALWAYS RETURN CODE 🚨
+        })
     } catch (error: any) {
         console.error('OTP Error:', error)
         return NextResponse.json({ error: error.message }, { status: 500 })
