@@ -49,15 +49,23 @@ async function sendViaResend(email: string, code: string) {
         if (!response.ok) {
             console.error('Resend Error:', data)
 
-            // Development Fallback: If Resend is restricted (403), log the code to console so the user isn't blocked.
-            if (response.status === 403) {
+            // If we're on localhost, we can fallback to console for convenience
+            const isLocal = process.env.NODE_ENV === 'development' || !process.env.VERCEL_URL
+
+            if (response.status === 403 && isLocal) {
                 console.log(`\n[DEV ONLY] Resend is restricted. Use this code: ${code}\n`)
                 return { success: true, mode: 'console_fallback' }
             }
 
+            // In production or if it's a non-403 error, return the actual error
+            let errorMessage = data.message || 'Resend failed to send email'
+            if (response.status === 403) {
+                errorMessage = 'Email domain not verified or recipient not allowed in sandbox. Please check Resend dashboard.'
+            }
+
             return {
                 success: false,
-                error: data.message || 'Resend failed to send email'
+                error: errorMessage
             }
         }
 
