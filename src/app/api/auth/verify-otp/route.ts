@@ -9,6 +9,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 export async function POST(request: Request) {
     try {
         const { email, code } = await request.json()
+        const origin = request.headers.get('origin') || new URL(request.url).origin
 
         if (!email || !code) {
             return NextResponse.json({ error: 'Email and code required' }, { status: 400 })
@@ -52,8 +53,6 @@ export async function POST(request: Request) {
             authUser = existingUser
         }
 
-        // 4. Generate a magic link for the user
-        const origin = new URL(request.url).origin
         const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({
             type: 'magiclink',
             email: email,
@@ -64,10 +63,15 @@ export async function POST(request: Request) {
 
         if (linkError) throw linkError
 
-        // Ensure the action_link uses the correct domain if Supabase is misconfigured
+        // 5. Build the final redirect URL
+        // If Supabase returns a localhost URL (Site URL misconfigured), we bridge it to the current origin
         let redirectUrl = linkData.properties.action_link
-        if (redirectUrl.includes('localhost:3000')) {
-            redirectUrl = redirectUrl.replace('http://localhost:3000', origin)
+        if (redirectUrl.includes('localhost')) {
+            const urlObj = new URL(redirectUrl)
+            urlObj.protocol = new URL(origin).protocol
+            urlObj.host = new URL(origin).host
+            urlObj.port = new URL(origin).port
+            redirectUrl = urlObj.toString()
         }
 
         return NextResponse.json({
