@@ -65,6 +65,8 @@ export default function FriendsPage() {
       const { data: conversationId, error: rpcError } = await supabase
         .rpc('get_or_create_conversation', { p_other_user: friendId })
 
+      console.log('RPC result:', { conversationId, rpcError })
+
       if (rpcError) {
         console.error('RPC error:', rpcError)
         setError(`Failed to start conversation: ${rpcError.message}`)
@@ -73,14 +75,15 @@ export default function FriendsPage() {
       }
 
       if (conversationId) {
-        router.push(`/messages/${conversationId}`)
+        // Use window.location for more robust navigation
+        window.location.href = `/messages/${conversationId}`
       } else {
-        setError('Failed to create conversation')
+        setError('Failed to create conversation - no ID returned')
         setStartingChat(null)
       }
     } catch (err) {
       console.error('Error starting conversation:', err)
-      setError('An unexpected error occurred')
+      setError(`An unexpected error occurred: ${err}`)
       setStartingChat(null)
     }
   }
