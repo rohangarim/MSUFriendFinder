@@ -19,6 +19,7 @@ export default function Navbar() {
     { href: '/discover', label: 'Discover' },
     { href: '/requests', label: 'Requests' },
     { href: '/friends', label: 'Friends' },
+    { href: '/messages', label: 'Messages' },
   ]
 
   return (

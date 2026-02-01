@@ -112,6 +112,55 @@ export interface Database {
           created_at?: string
         }
       }
+      conversations: {
+        Row: {
+          id: string
+          participant_a: string
+          participant_b: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          participant_a: string
+          participant_b: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          participant_a?: string
+          participant_b?: string
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      messages: {
+        Row: {
+          id: string
+          conversation_id: string
+          sender_id: string
+          content: string
+          created_at: string
+          read_at: string | null
+        }
+        Insert: {
+          id?: string
+          conversation_id: string
+          sender_id: string
+          content: string
+          created_at?: string
+          read_at?: string | null
+        }
+        Update: {
+          id?: string
+          conversation_id?: string
+          sender_id?: string
+          content?: string
+          created_at?: string
+          read_at?: string | null
+        }
+      }
     }
     Functions: {
       accept_friend_request: {
@@ -120,6 +169,12 @@ export interface Database {
         }
         Returns: undefined
       }
+      get_or_create_conversation: {
+        Args: {
+          p_other_user: string
+        }
+        Returns: string
+      }
     }
   }
 }
@@ -127,3 +182,5 @@ export interface Database {
 export type Profile = Database['public']['Tables']['profiles']['Row']
 export type FriendRequest = Database['public']['Tables']['friend_requests']['Row']
 export type Friendship = Database['public']['Tables']['friendships']['Row']
+export type Conversation = Database['public']['Tables']['conversations']['Row']
+export type Message = Database['public']['Tables']['messages']['Row']

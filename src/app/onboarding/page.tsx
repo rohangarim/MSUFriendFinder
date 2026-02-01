@@ -6,6 +6,7 @@ export const dynamic = 'force-dynamic'
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import ImageCropper from '@/components/ImageCropper'
 import type { YearType } from '@/types/database'
 
 const INTERESTS = [
@@ -50,8 +51,10 @@ export default function OnboardingPage() {
     avatar_url: '',
   })
 
-  const [avatarFile, setAvatarFile] = useState<File | null>(null)
+  const [avatarFile, setAvatarFile] = useState<Blob | null>(null)
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
+  const [showCropper, setShowCropper] = useState(false)
+  const [rawImageSrc, setRawImageSrc] = useState<string | null>(null)
 
   useEffect(() => {
     const getUser = async () => {
@@ -69,12 +72,28 @@ export default function OnboardingPage() {
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        setError('Image must be less than 5MB')
+      if (file.size > 10 * 1024 * 1024) {
+        setError('Image must be less than 10MB')
         return
       }
-      setAvatarFile(file)
-      setAvatarPreview(URL.createObjectURL(file))
+      // Open cropper with raw image
+      setRawImageSrc(URL.createObjectURL(file))
+      setShowCropper(true)
+    }
+  }
+
+  const handleCropComplete = (croppedBlob: Blob) => {
+    setAvatarFile(croppedBlob)
+    setAvatarPreview(URL.createObjectURL(croppedBlob))
+    setShowCropper(false)
+    setRawImageSrc(null)
+  }
+
+  const handleCropCancel = () => {
+    setShowCropper(false)
+    setRawImageSrc(null)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
     }
   }
 
@@ -99,12 +118,14 @@ export default function OnboardingPage() {
   const uploadAvatar = async () => {
     if (!avatarFile || !userId) return null
 
-    const fileExt = avatarFile.name.split('.').pop()
-    const filePath = `${userId}/avatar.${fileExt}`
+    const filePath = `${userId}/avatar.jpg`
 
     const { error: uploadError } = await supabase.storage
       .from('avatars')
-      .upload(filePath, avatarFile, { upsert: true })
+      .upload(filePath, avatarFile, {
+        upsert: true,
+        contentType: 'image/jpeg'
+      })
 
     if (uploadError) {
       console.error('Upload error:', uploadError)
@@ -115,7 +136,8 @@ export default function OnboardingPage() {
       .from('avatars')
       .getPublicUrl(filePath)
 
-    return data.publicUrl
+    // Add cache-busting param
+    return `${data.publicUrl}?t=${Date.now()}`
   }
 
   const handleSubmit = async () => {
@@ -241,7 +263,7 @@ export default function OnboardingPage() {
               <div className="flex flex-col items-center gap-6">
                 <div
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-40 h-40 rounded-[2.5rem] bg-gray-50 flex items-center justify-center cursor-pointer hover:scale-105 transition-all duration-500 overflow-hidden border-2 border-dashed border-gray-200 hover:border-msu-green group relative"
+                  className="w-40 h-40 rounded-full bg-gray-50 flex items-center justify-center cursor-pointer hover:scale-105 transition-all duration-500 overflow-hidden border-4 border-dashed border-gray-200 hover:border-msu-green group relative shadow-xl"
                 >
                   {avatarPreview ? (
                     <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover" />
@@ -251,7 +273,7 @@ export default function OnboardingPage() {
                       <span className="text-[10px] font-black uppercase tracking-tighter text-gray-500 group-hover:text-msu-green">Select Photo</span>
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-msu-green/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="absolute inset-0 bg-msu-green/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-full">
                     <span className="text-white font-bold text-xs uppercase tracking-widest">Change</span>
                   </div>
                 </div>
@@ -431,6 +453,15 @@ export default function OnboardingPage() {
           )}
         </div>
       </div>
+
+      {/* Image Cropper Modal */}
+      {showCropper && rawImageSrc && (
+        <ImageCropper
+          imageSrc={rawImageSrc}
+          onCropComplete={handleCropComplete}
+          onCancel={handleCropCancel}
+        />
+      )}
     </div>
   )
 }

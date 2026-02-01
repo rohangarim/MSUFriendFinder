@@ -5,12 +5,15 @@ export const dynamic = 'force-dynamic'
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import type { Profile } from '@/types/database'
 
 export default function FriendsPage() {
   const [friends, setFriends] = useState<Profile[]>([])
   const [loading, setLoading] = useState(true)
+  const [startingChat, setStartingChat] = useState<string | null>(null)
+  const router = useRouter()
   const supabase = createClient()
 
   useEffect(() => {
@@ -52,6 +55,23 @@ export default function FriendsPage() {
 
     setFriends(profiles || [])
     setLoading(false)
+  }
+
+  const startConversation = async (friendId: string) => {
+    setStartingChat(friendId)
+    try {
+      const { data: conversationId, error } = await supabase
+        .rpc('get_or_create_conversation', { p_other_user: friendId })
+
+      if (error) throw error
+
+      if (conversationId) {
+        router.push(`/messages/${conversationId}`)
+      }
+    } catch (error) {
+      console.error('Error starting conversation:', error)
+      setStartingChat(null)
+    }
   }
 
   if (loading) {
@@ -100,43 +120,63 @@ export default function FriendsPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {friends.map((friend, idx) => (
-            <Link
+            <div
               key={friend.id}
-              href={`/profile/${friend.id}`}
-              className={`card-prestige !p-6 group flex items-center gap-6 animate-fade-in reveal-delay-${(idx % 3) + 1} transition-all hover:scale-[1.02] active:scale-[0.98] border-transparent hover:border-msu-green/20`}
+              className={`card-prestige !p-6 animate-fade-in reveal-delay-${(idx % 3) + 1}`}
             >
-              <div className="relative">
-                <div className="w-20 h-20 rounded-2xl bg-white p-1 shadow-lg group-hover:rotate-3 transition-transform">
-                  <div className="w-full h-full rounded-xl bg-gray-100 overflow-hidden flex items-center justify-center">
-                    {friend.avatar_url ? (
-                      <img
-                        src={friend.avatar_url}
-                        alt={friend.full_name}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <span className="text-2xl">👤</span>
-                    )}
+              <div className="flex items-center gap-4">
+                <div className="relative">
+                  <div className="w-16 h-16 rounded-full bg-white p-1 shadow-lg">
+                    <div className="w-full h-full rounded-full bg-gray-100 overflow-hidden flex items-center justify-center">
+                      {friend.avatar_url ? (
+                        <img
+                          src={friend.avatar_url}
+                          alt={friend.full_name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-xl">👤</span>
+                      )}
+                    </div>
                   </div>
+                  <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-msu-green border-2 border-white rounded-full flex items-center justify-center text-[8px] text-white">✓</div>
                 </div>
-                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-msu-green border-2 border-white rounded-full flex items-center justify-center text-[10px] text-white">✓</div>
+
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-lg font-black text-gray-900 leading-tight truncate">
+                    {friend.full_name}
+                  </h3>
+                  <p className="text-xs font-bold text-gray-400 mt-0.5 uppercase tracking-wider truncate">
+                    {friend.major && friend.year
+                      ? `${friend.major} • ${friend.year}`
+                      : friend.major || friend.year || 'MSU Student'}
+                  </p>
+                </div>
               </div>
 
-              <div className="flex-1 min-w-0">
-                <h3 className="text-lg font-black text-gray-900 group-hover:text-msu-green transition-colors leading-tight truncate">
-                  {friend.full_name}
-                </h3>
-                <p className="text-xs font-bold text-gray-400 mt-1 uppercase tracking-wider truncate">
-                  {friend.major && friend.year
-                    ? `${friend.major} • ${friend.year}`
-                    : friend.major || friend.year || 'MSU Student'}
-                </p>
-                <div className="mt-3 flex items-center gap-2">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-msu-green-light">View Dossier</span>
-                  <span className="text-msu-green-light group-hover:translate-x-1 transition-transform">→</span>
-                </div>
+              <div className="flex gap-2 mt-4">
+                <Link
+                  href={`/profile/${friend.id}`}
+                  className="flex-1 py-2.5 px-4 rounded-xl font-bold text-xs text-center
+                           bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors uppercase tracking-wider"
+                >
+                  View Profile
+                </Link>
+                <button
+                  onClick={() => startConversation(friend.id)}
+                  disabled={startingChat === friend.id}
+                  className="flex-1 py-2.5 px-4 rounded-xl font-bold text-xs text-center
+                           bg-msu-gradient text-white hover:opacity-90 transition-opacity uppercase tracking-wider
+                           disabled:opacity-50 flex items-center justify-center gap-2"
+                >
+                  {startingChat === friend.id ? (
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    'Message'
+                  )}
+                </button>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       )}
