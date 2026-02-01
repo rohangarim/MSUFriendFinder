@@ -92,10 +92,10 @@ export default function FriendsPage() {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-gray-200 rounded w-1/4"></div>
+          <div className="h-8 bg-foreground-subtle/30 rounded w-1/4"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="bg-white rounded-xl p-6 h-24"></div>
+              <div key={i} className="bg-background-elevated rounded-xl p-6 h-24"></div>
             ))}
           </div>
         </div>
@@ -110,7 +110,7 @@ export default function FriendsPage() {
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-msu-accent/5 blur-[120px] rounded-full -z-10" />
 
       {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm font-medium">
+        <div className="mb-6 p-4 alert-error-prestige">
           {error}
         </div>
       )}
@@ -120,11 +120,11 @@ export default function FriendsPage() {
           <h1 className="text-4xl font-black text-prestige-gradient tracking-tight">
             Spartan Network
           </h1>
-          <p className="text-sm font-bold text-gray-400 mt-2 uppercase tracking-widest">
+          <p className="text-sm font-bold text-foreground-subtle mt-2 uppercase tracking-widest">
             Your {friends.length} Elite Connections
           </p>
         </div>
-        <Link href="/discover" className="btn-secondary-prestige !px-6 !py-3 !text-xs !bg-white">
+        <Link href="/discover" className="btn-secondary-prestige !px-6 !py-3 !text-xs !bg-background-elevated">
           Expand Network
         </Link>
       </div>
@@ -132,7 +132,7 @@ export default function FriendsPage() {
       {friends.length === 0 ? (
         <div className="text-center py-24 card-prestige bg-white/40 border-dashed border-2 animate-fade-in">
           <span className="text-6xl block mb-6 grayscale opacity-20">🤝</span>
-          <p className="text-xl font-black text-gray-400">Your network is currently a blank canvas.</p>
+          <p className="text-xl font-black text-foreground-subtle">Your network is currently a blank canvas.</p>
           <Link href="/discover" className="mt-6 btn-prestige inline-block !px-8">
             Start Discovering
           </Link>
@@ -147,7 +147,7 @@ export default function FriendsPage() {
               <div className="flex items-center gap-4">
                 <div className="relative">
                   <div className="w-16 h-16 rounded-full bg-white p-1 shadow-lg">
-                    <div className="w-full h-full rounded-full bg-gray-100 overflow-hidden flex items-center justify-center">
+                    <div className="w-full h-full rounded-full bg-background-elevated overflow-hidden flex items-center justify-center">
                       {friend.avatar_url ? (
                         <img
                           src={friend.avatar_url}
@@ -163,10 +163,10 @@ export default function FriendsPage() {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-lg font-black text-gray-900 leading-tight truncate">
+                  <h3 className="text-lg font-black text-foreground leading-tight truncate">
                     {friend.full_name}
                   </h3>
-                  <p className="text-xs font-bold text-gray-400 mt-0.5 uppercase tracking-wider truncate">
+                  <p className="text-xs font-bold text-foreground-subtle mt-0.5 uppercase tracking-wider truncate">
                     {friend.major && friend.year
                       ? `${friend.major} • ${friend.year}`
                       : friend.major || friend.year || 'MSU Student'}
@@ -178,7 +178,7 @@ export default function FriendsPage() {
                 <Link
                   href={`/profile/${friend.id}`}
                   className="flex-1 py-2.5 px-4 rounded-xl font-bold text-xs text-center
-                           bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors uppercase tracking-wider"
+                           bg-background-elevated text-foreground-muted hover:bg-background transition-colors uppercase tracking-wider"
                 >
                   View Profile
                 </Link>

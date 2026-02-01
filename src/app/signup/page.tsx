@@ -78,7 +78,7 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-background flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background accents */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-msu-green/5 blur-[100px] rounded-full -z-10 animate-pulse" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-msu-accent/5 blur-[120px] rounded-full -z-10 animate-pulse" />
@@ -88,7 +88,7 @@ export default function SignupPage() {
           <div className="w-16 h-16 bg-msu-gradient rounded-[1.5rem] flex items-center justify-center text-white text-3xl font-black shadow-2xl transition-transform group-hover:scale-110 group-hover:rotate-3">S</div>
           <h1 className="text-3xl font-black text-prestige-gradient tracking-tighter">SpartanFinder</h1>
         </Link>
-        <p className="mt-2 text-center text-sm font-bold text-gray-400 uppercase tracking-widest">
+        <p className="mt-2 text-center text-sm font-bold text-foreground-subtle uppercase tracking-widest">
           Create your account
         </p>
       </div>
@@ -104,7 +104,7 @@ export default function SignupPage() {
 
           <form onSubmit={handleSignup} className="space-y-5">
             <div className="space-y-2">
-              <label htmlFor="fullName" className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">
+              <label htmlFor="fullName" className="block text-xs font-black text-foreground-subtle uppercase tracking-widest ml-1">
                 Full Name
               </label>
               <input
@@ -119,7 +119,7 @@ export default function SignupPage() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="email" className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">
+              <label htmlFor="email" className="block text-xs font-black text-foreground-subtle uppercase tracking-widest ml-1">
                 Email Address
               </label>
               <input
@@ -134,7 +134,7 @@ export default function SignupPage() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="password" className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">
+              <label htmlFor="password" className="block text-xs font-black text-foreground-subtle uppercase tracking-widest ml-1">
                 Password
               </label>
               <input
@@ -149,7 +149,7 @@ export default function SignupPage() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="confirmPassword" className="block text-xs font-black text-gray-400 uppercase tracking-widest ml-1">
+              <label htmlFor="confirmPassword" className="block text-xs font-black text-foreground-subtle uppercase tracking-widest ml-1">
                 Confirm Password
               </label>
               <input
@@ -173,7 +173,7 @@ export default function SignupPage() {
           </form>
 
           <div className="mt-8 text-center">
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-foreground-muted">
               Already have an account?{' '}
               <Link href="/login" className="font-bold text-msu-green hover:text-msu-green-light transition-colors">
                 Sign in
@@ -181,7 +181,7 @@ export default function SignupPage() {
             </p>
           </div>
 
-          <p className="mt-8 text-center text-xs font-black uppercase tracking-widest text-gray-300">
+          <p className="mt-8 text-center text-xs font-black uppercase tracking-widest text-foreground-subtle">
             Michigan State University
           </p>
         </div>

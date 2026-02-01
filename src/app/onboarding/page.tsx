@@ -219,7 +219,7 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#fdfdfd] py-20 px-4 overflow-hidden relative">
+    <div className="min-h-screen bg-background py-20 px-4 overflow-hidden relative">
       {/* Background accents */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-msu-green/5 blur-[120px] rounded-full" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-msu-accent/5 blur-[120px] rounded-full" />
@@ -229,7 +229,7 @@ export default function OnboardingPage() {
           <h1 className="text-5xl font-black text-prestige-gradient mb-4 tracking-tight">
             Begin Your Journey
           </h1>
-          <p className="text-gray-500 font-bold tracking-widest uppercase text-xs">
+          <p className="text-foreground-muted font-bold tracking-widest uppercase text-xs">
             Step {step} of 3 <span className="mx-2">•</span> {completionPercentage()}% complete
           </p>
 
@@ -238,7 +238,7 @@ export default function OnboardingPage() {
             {[1, 2, 3].map((s) => (
               <div
                 key={s}
-                className={`flex-1 h-1.5 rounded-full transition-all duration-500 ${s <= step ? 'bg-msu-green shadow-[0_0_12px_rgba(24,69,59,0.3)]' : 'bg-gray-200'
+                className={`flex-1 h-1.5 rounded-full transition-all duration-500 ${s <= step ? 'bg-msu-green shadow-[0_0_12px_rgba(24,69,59,0.3)]' : 'bg-foreground-subtle/30'
                   }`}
               />
             ))}
@@ -255,22 +255,22 @@ export default function OnboardingPage() {
           {step === 1 && (
             <div className="space-y-8">
               <div>
-                <h2 className="text-2xl font-black text-gray-900 mb-2">The Basics</h2>
-                <p className="text-gray-500 text-sm font-medium">Let's start with who you are.</p>
+                <h2 className="text-2xl font-black text-foreground mb-2">The Basics</h2>
+                <p className="text-foreground-muted text-sm font-medium">Let's start with who you are.</p>
               </div>
 
               {/* Avatar upload */}
               <div className="flex flex-col items-center gap-6">
                 <div
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-40 h-40 rounded-full bg-gray-50 flex items-center justify-center cursor-pointer hover:scale-105 transition-all duration-500 overflow-hidden border-4 border-dashed border-gray-200 hover:border-msu-green group relative shadow-xl"
+                  className="w-40 h-40 rounded-full bg-background-elevated flex items-center justify-center cursor-pointer hover:scale-105 transition-all duration-500 overflow-hidden border-4 border-dashed border-foreground-subtle/30 hover:border-msu-green group relative shadow-xl"
                 >
                   {avatarPreview ? (
                     <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover" />
                   ) : (
                     <div className="text-center">
                       <span className="text-4xl block mb-2 opacity-40 group-hover:opacity-100 transition-opacity">📸</span>
-                      <span className="text-[10px] font-black uppercase tracking-tighter text-gray-500 group-hover:text-msu-green">Select Photo</span>
+                      <span className="text-[10px] font-black uppercase tracking-tighter text-foreground-muted group-hover:text-msu-green">Select Photo</span>
                     </div>
                   )}
                   <div className="absolute inset-0 bg-msu-green/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-full">
@@ -288,7 +288,7 @@ export default function OnboardingPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-black text-gray-600 uppercase tracking-widest mb-2 ml-1">
+                  <label className="block text-xs font-black text-foreground-muted uppercase tracking-widest mb-2 ml-1">
                     Full Name
                   </label>
                   <input
@@ -302,7 +302,7 @@ export default function OnboardingPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-black text-gray-600 uppercase tracking-widest mb-2 ml-1">
+                  <label className="block text-xs font-black text-foreground-muted uppercase tracking-widest mb-2 ml-1">
                     Pronouns
                   </label>
                   <input
@@ -315,7 +315,7 @@ export default function OnboardingPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                  <label className="block text-xs font-black text-foreground-subtle uppercase tracking-widest mb-2 ml-1">
                     Year
                   </label>
                   <select
@@ -331,7 +331,7 @@ export default function OnboardingPage() {
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-black text-gray-600 uppercase tracking-widest mb-2 ml-1">
+                  <label className="block text-xs font-black text-foreground-muted uppercase tracking-widest mb-2 ml-1">
                     Major
                   </label>
                   <input
@@ -345,7 +345,7 @@ export default function OnboardingPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-black text-gray-600 uppercase tracking-widest mb-2 ml-1">
+                <label className="block text-xs font-black text-foreground-muted uppercase tracking-widest mb-2 ml-1">
                   Bio
                 </label>
                 <textarea
@@ -356,7 +356,7 @@ export default function OnboardingPage() {
                   maxLength={500}
                 />
                 <div className="flex justify-end mt-2">
-                  <span className="text-[10px] font-black text-gray-300 tracking-tighter uppercase">{formData.bio.length} / 500</span>
+                  <span className="text-[10px] font-black text-foreground-subtle tracking-tighter uppercase">{formData.bio.length} / 500</span>
                 </div>
               </div>
 
@@ -380,8 +380,8 @@ export default function OnboardingPage() {
           {step === 2 && (
             <div className="space-y-8 animate-fade-in">
               <div>
-                <h2 className="text-2xl font-black text-gray-900 mb-2">Vibe Check</h2>
-                <p className="text-gray-500 text-sm font-medium">What makes you tick? Select your favorites.</p>
+                <h2 className="text-2xl font-black text-foreground mb-2">Vibe Check</h2>
+                <p className="text-foreground-muted text-sm font-medium">What makes you tick? Select your favorites.</p>
               </div>
 
               <div className="flex flex-wrap gap-3">
@@ -417,8 +417,8 @@ export default function OnboardingPage() {
           {step === 3 && (
             <div className="space-y-8 animate-fade-in">
               <div>
-                <h2 className="text-2xl font-black text-gray-900 mb-2">Desired Connections</h2>
-                <p className="text-gray-500 text-sm font-medium">What kind of squad are you looking to build?</p>
+                <h2 className="text-2xl font-black text-foreground mb-2">Desired Connections</h2>
+                <p className="text-foreground-muted text-sm font-medium">What kind of squad are you looking to build?</p>
               </div>
 
               <div className="flex flex-wrap gap-3">

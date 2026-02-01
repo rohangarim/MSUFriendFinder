@@ -45,8 +45,8 @@ export default function Navbar() {
                   key={item.href}
                   href={item.href}
                   className={`px-5 py-2 rounded-xl font-bold transition-all duration-300 relative group overflow-hidden ${pathname === item.href
-                      ? 'text-msu-green'
-                      : 'text-gray-600 hover:text-msu-green-light font-black'
+                    ? 'text-msu-green'
+                    : 'text-foreground-muted hover:text-msu-green-light font-black'
                     }`}
                 >
                   <span className="relative z-10">{item.label}</span>
@@ -63,10 +63,10 @@ export default function Navbar() {
                 href="/profile"
                 className="group flex items-center gap-3"
               >
-                <div className="w-10 h-10 rounded-full bg-gray-100 border-2 border-transparent group-hover:border-msu-green transition-all overflow-hidden flex items-center justify-center">
-                  <span className="text-gray-400 group-hover:text-msu-green">👤</span>
+                <div className="w-10 h-10 rounded-full bg-background-elevated border-2 border-transparent group-hover:border-msu-green transition-all overflow-hidden flex items-center justify-center">
+                  <span className="text-foreground-subtle group-hover:text-msu-green">👤</span>
                 </div>
-                <span className="hidden sm:inline font-bold text-gray-700 group-hover:text-msu-green transition-colors">
+                <span className="hidden sm:inline font-bold text-foreground-muted group-hover:text-msu-green transition-colors">
                   My Profile
                 </span>
               </Link>
@@ -87,8 +87,8 @@ export default function Navbar() {
               key={item.href}
               href={item.href}
               className={`px-4 py-2 rounded-xl font-bold whitespace-nowrap transition-all duration-300 ${pathname === item.href
-                  ? 'bg-msu-green text-white shadow-lg'
-                  : 'bg-white/50 text-gray-600 border border-white/50'
+                ? 'bg-msu-green text-white shadow-lg'
+                : 'bg-background-elevated/50 text-foreground-muted border border-glass-border'
                 }`}
             >
               {item.label}

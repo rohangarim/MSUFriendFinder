@@ -271,11 +271,11 @@ export default function MessagesPage() {
       <div className="max-w-2xl mx-auto px-4 py-8">
         <div className="animate-pulse space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="flex items-center gap-4 p-4 bg-gray-100 rounded-2xl">
-              <div className="w-14 h-14 bg-gray-200 rounded-full" />
+            <div key={i} className="flex items-center gap-4 p-4 bg-background-elevated rounded-2xl">
+              <div className="w-14 h-14 bg-foreground-subtle/30 rounded-full" />
               <div className="flex-1">
-                <div className="h-4 bg-gray-200 rounded w-1/3 mb-2" />
-                <div className="h-3 bg-gray-200 rounded w-2/3" />
+                <div className="h-4 bg-foreground-subtle/30 rounded w-1/3 mb-2" />
+                <div className="h-3 bg-foreground-subtle/30 rounded w-2/3" />
               </div>
             </div>
           ))}
@@ -292,8 +292,8 @@ export default function MessagesPage() {
 
       <div className="flex justify-between items-end mb-8 animate-fade-in">
         <div>
-          <h1 className="text-4xl font-black text-gray-900 tracking-tight">Messages</h1>
-          <p className="text-gray-500 font-bold text-sm mt-1">Chat with your Spartan friends</p>
+          <h1 className="text-4xl font-black text-foreground tracking-tight">Messages</h1>
+          <p className="text-foreground-muted font-bold text-sm mt-1">Chat with your Spartan friends</p>
         </div>
         <button
           onClick={openCreateGroup}
@@ -306,8 +306,8 @@ export default function MessagesPage() {
       {conversations.length === 0 ? (
         <div className="card-prestige text-center py-16 animate-fade-in">
           <span className="text-6xl block mb-4">💬</span>
-          <h3 className="text-xl font-black text-gray-800 mb-2">No conversations yet</h3>
-          <p className="text-gray-500 font-medium mb-6">
+          <h3 className="text-xl font-black text-foreground mb-2">No conversations yet</h3>
+          <p className="text-foreground-muted font-medium mb-6">
             Start chatting with your friends!
           </p>
           <Link href="/friends" className="btn-prestige inline-block">
@@ -333,7 +333,7 @@ export default function MessagesPage() {
                     )}
                   </div>
                 ) : (
-                  <div className="w-14 h-14 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center">
+                  <div className="w-14 h-14 rounded-full bg-background-elevated overflow-hidden flex items-center justify-center">
                     {displayAvatar ? (
                       <img
                         src={displayAvatar}
@@ -356,7 +356,7 @@ export default function MessagesPage() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <h3 className={`font-bold text-gray-900 truncate ${unreadCount > 0 ? 'font-black' : ''}`}>
+                    <h3 className={`font-bold text-foreground truncate ${unreadCount > 0 ? 'font-black' : ''}`}>
                       {displayName || 'Unknown'}
                     </h3>
                     {conversation.is_group && (
@@ -366,17 +366,17 @@ export default function MessagesPage() {
                     )}
                   </div>
                   {lastMessage && (
-                    <span className="text-xs text-gray-400 font-medium flex-shrink-0">
+                    <span className="text-xs text-foreground-subtle font-medium flex-shrink-0">
                       {formatTime(lastMessage.created_at)}
                     </span>
                   )}
                 </div>
-                <p className={`text-sm truncate ${unreadCount > 0 ? 'text-gray-700 font-medium' : 'text-gray-500'}`}>
+                <p className={`text-sm truncate ${unreadCount > 0 ? 'text-foreground font-medium' : 'text-foreground-muted'}`}>
                   {lastMessage ? (
                     lastMessage.sender_id === currentUserId ? (
-                      <span className="text-gray-400">You: </span>
+                      <span className="text-foreground-subtle">You: </span>
                     ) : conversation.is_group ? (
-                      <span className="text-gray-400">
+                      <span className="text-foreground-subtle">
                         {participants.find(p => p.id === lastMessage.sender_id)?.full_name?.split(' ')[0]}:
                       </span>
                     ) : null
@@ -386,7 +386,7 @@ export default function MessagesPage() {
               </div>
 
               {/* Arrow */}
-              <div className="text-gray-300">
+              <div className="text-foreground-subtle">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
@@ -399,13 +399,13 @@ export default function MessagesPage() {
       {/* Create Group Chat Modal */}
       {showCreateGroup && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowCreateGroup(false)}>
-          <div className="bg-white rounded-3xl max-w-md w-full max-h-[80vh] overflow-hidden animate-fade-in" onClick={(e) => e.stopPropagation()}>
-            <div className="p-6 border-b border-gray-100">
+          <div className="bg-background-elevated rounded-3xl max-w-md w-full max-h-[80vh] overflow-hidden animate-fade-in" onClick={(e) => e.stopPropagation()}>
+            <div className="p-6 border-b border-glass-border">
               <div className="flex justify-between items-center">
-                <h2 className="text-xl font-black text-gray-900">Create Group Chat</h2>
+                <h2 className="text-xl font-black text-foreground">Create Group Chat</h2>
                 <button
                   onClick={() => setShowCreateGroup(false)}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-foreground-subtle hover:text-foreground-muted"
                 >
                   ✕
                 </button>
@@ -420,12 +420,12 @@ export default function MessagesPage() {
             </div>
 
             <div className="p-6 overflow-y-auto max-h-[50vh]">
-              <h3 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-4">
+              <h3 className="text-sm font-black text-foreground-subtle uppercase tracking-widest mb-4">
                 Select Friends ({selectedFriends.length} selected)
               </h3>
 
               {friends.length === 0 ? (
-                <p className="text-center text-gray-400 py-8">
+                <p className="text-center text-foreground-subtle py-8">
                   Add friends first to create a group chat!
                 </p>
               ) : (
@@ -434,13 +434,12 @@ export default function MessagesPage() {
                     <button
                       key={friend.id}
                       onClick={() => toggleFriendSelection(friend.id)}
-                      className={`w-full flex items-center gap-4 p-3 rounded-xl transition-colors ${
-                        selectedFriends.includes(friend.id)
+                      className={`w-full flex items-center gap-4 p-3 rounded-xl transition-colors ${selectedFriends.includes(friend.id)
                           ? 'bg-msu-green/10 border-2 border-msu-green'
-                          : 'bg-gray-50 border-2 border-transparent hover:bg-gray-100'
-                      }`}
+                          : 'bg-background-elevated border-2 border-transparent hover:bg-background'
+                        }`}
                     >
-                      <div className="w-10 h-10 rounded-full bg-gray-100 overflow-hidden flex-shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-background-elevated overflow-hidden flex-shrink-0">
                         {friend.avatar_url ? (
                           <img src={friend.avatar_url} alt={friend.full_name} className="w-full h-full object-cover" />
                         ) : (
@@ -448,8 +447,8 @@ export default function MessagesPage() {
                         )}
                       </div>
                       <div className="flex-1 text-left">
-                        <h4 className="font-bold text-gray-900">{friend.full_name}</h4>
-                        <p className="text-sm text-gray-500">{friend.major || 'MSU Student'}</p>
+                        <h4 className="font-bold text-foreground">{friend.full_name}</h4>
+                        <p className="text-sm text-foreground-muted">{friend.major || 'MSU Student'}</p>
                       </div>
                       {selectedFriends.includes(friend.id) && (
                         <span className="text-msu-green font-bold">✓</span>
@@ -460,7 +459,7 @@ export default function MessagesPage() {
               )}
             </div>
 
-            <div className="p-6 border-t border-gray-100">
+            <div className="p-6 border-t border-glass-border">
               {error && (
                 <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm font-medium">
                   {error}
@@ -473,7 +472,7 @@ export default function MessagesPage() {
               >
                 {creating ? 'Creating...' : `Create Group (${selectedFriends.length} members)`}
               </button>
-              <p className="text-xs text-gray-400 text-center mt-2">
+              <p className="text-xs text-foreground-subtle text-center mt-2">
                 Select at least 2 friends to create a group
               </p>
             </div>

@@ -252,9 +252,9 @@ export default function MyProfilePage() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-8">
         <div className="animate-pulse space-y-4">
-          <div className="h-32 w-32 bg-gray-200 rounded-full mx-auto"></div>
-          <div className="h-8 bg-gray-200 rounded w-1/3 mx-auto"></div>
-          <div className="h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
+          <div className="h-32 w-32 bg-foreground-subtle/30 rounded-full mx-auto"></div>
+          <div className="h-8 bg-foreground-subtle/30 rounded w-1/3 mx-auto"></div>
+          <div className="h-4 bg-foreground-subtle/30 rounded w-1/2 mx-auto"></div>
         </div>
       </div>
     )
@@ -343,7 +343,7 @@ export default function MyProfilePage() {
                 className={`w-40 h-40 rounded-full bg-white p-2 shadow-2xl transition-all duration-500 overflow-hidden ${editing ? 'cursor-pointer hover:scale-105' : ''
                   }`}
               >
-                <div className="w-full h-full rounded-full bg-gray-100 overflow-hidden flex items-center justify-center">
+                <div className="w-full h-full rounded-full bg-background-elevated overflow-hidden flex items-center justify-center">
                   {avatarPreview ? (
                     <img src={avatarPreview} alt={profile.full_name} className="w-full h-full object-cover" />
                   ) : (

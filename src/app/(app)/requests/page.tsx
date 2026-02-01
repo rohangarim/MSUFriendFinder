@@ -121,10 +121,10 @@ export default function RequestsPage() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-8">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-gray-200 rounded w-1/3"></div>
+          <div className="h-8 bg-foreground-subtle/30 rounded w-1/3"></div>
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white rounded-xl p-6 h-24"></div>
+              <div key={i} className="bg-background-elevated rounded-xl p-6 h-24"></div>
             ))}
           </div>
         </div>
@@ -148,7 +148,7 @@ export default function RequestsPage() {
           onClick={() => setActiveTab('incoming')}
           className={`relative px-8 py-3 rounded-2xl font-black text-sm uppercase tracking-widest transition-all duration-300 ${activeTab === 'incoming'
             ? 'text-white bg-msu-gradient shadow-xl scale-105'
-            : 'text-gray-600 bg-white hover:bg-gray-50 border border-gray-100'
+            : 'text-foreground-muted bg-background-elevated hover:bg-background border border-glass-border'
             }`}
         >
           Incoming
@@ -162,7 +162,7 @@ export default function RequestsPage() {
           onClick={() => setActiveTab('sent')}
           className={`relative px-8 py-3 rounded-2xl font-black text-sm uppercase tracking-widest transition-all duration-300 ${activeTab === 'sent'
             ? 'text-white bg-msu-gradient shadow-xl scale-105'
-            : 'text-gray-600 bg-white hover:bg-gray-50 border border-gray-100'
+            : 'text-foreground-muted bg-background-elevated hover:bg-background border border-glass-border'
             }`}
         >
           Sent
@@ -179,7 +179,7 @@ export default function RequestsPage() {
           {incomingRequests.length === 0 ? (
             <div className="text-center py-20 card-prestige bg-white/40 border-dashed border-2 animate-fade-in">
               <span className="text-6xl block mb-6 grayscale opacity-20">📭</span>
-              <p className="text-xl font-black text-gray-400">Your inbox is a quiet sanctuary.</p>
+              <p className="text-xl font-black text-foreground-subtle">Your inbox is a quiet sanctuary.</p>
               <Link href="/discover" className="mt-4 text-msu-green font-black uppercase tracking-widest text-xs hover:underline inline-block">
                 Discovery awaits →
               </Link>
@@ -193,7 +193,7 @@ export default function RequestsPage() {
                 <div className="flex flex-col md:flex-row items-center gap-8">
                   <div className="relative">
                     <div className="w-20 h-20 rounded-2xl bg-white p-1 shadow-lg group-hover:rotate-3 transition-transform">
-                      <div className="w-full h-full rounded-xl bg-gray-100 overflow-hidden flex items-center justify-center">
+                      <div className="w-full h-full rounded-xl bg-background-elevated overflow-hidden flex items-center justify-center">
                         {request.profile.avatar_url ? (
                           <img
                             src={request.profile.avatar_url}
@@ -210,11 +210,11 @@ export default function RequestsPage() {
 
                   <div className="flex-1 text-center md:text-left min-w-0">
                     <Link href={`/profile/${request.profile.id}`} className="group/name">
-                      <h3 className="text-xl font-black text-gray-900 group-hover/name:text-msu-green transition-colors leading-tight">
+                      <h3 className="text-xl font-black text-foreground group-hover/name:text-msu-green transition-colors leading-tight">
                         {request.profile.full_name}
                       </h3>
                     </Link>
-                    <p className="text-sm font-bold text-gray-400 mt-1">
+                    <p className="text-sm font-bold text-foreground-subtle mt-1">
                       {request.profile.major && request.profile.year
                         ? `${request.profile.major} • ${request.profile.year}`
                         : request.profile.major || request.profile.year || 'MSU Student'}
@@ -222,7 +222,7 @@ export default function RequestsPage() {
                     {request.note && (
                       <div className="mt-4 relative">
                         <div className="absolute -left-2 top-0 text-2xl text-msu-green/10 font-serif">“</div>
-                        <p className="text-sm text-gray-600 font-medium leading-relaxed italic px-4">
+                        <p className="text-sm text-foreground-muted font-medium leading-relaxed italic px-4">
                           {request.note}
                         </p>
                       </div>
@@ -257,7 +257,7 @@ export default function RequestsPage() {
           {sentRequests.length === 0 ? (
             <div className="text-center py-20 card-prestige bg-white/40 border-dashed border-2 animate-fade-in">
               <span className="text-6xl block mb-6 grayscale opacity-20">🚀</span>
-              <p className="text-xl font-black text-gray-400">No signals currently in orbit.</p>
+              <p className="text-xl font-black text-foreground-subtle">No signals currently in orbit.</p>
               <Link href="/discover" className="mt-4 text-msu-green font-black uppercase tracking-widest text-xs hover:underline inline-block">
                 Forge a new connection →
               </Link>
@@ -285,11 +285,11 @@ export default function RequestsPage() {
 
                   <div className="flex-1 text-center md:text-left min-w-0">
                     <Link href={`/profile/${request.profile.id}`} className="group/name">
-                      <h3 className="text-xl font-black text-gray-900 group-hover/name:text-msu-green transition-colors leading-tight">
+                      <h3 className="text-xl font-black text-foreground group-hover/name:text-msu-green transition-colors leading-tight">
                         {request.profile.full_name}
                       </h3>
                     </Link>
-                    <p className="text-sm font-bold text-gray-400 mt-1">
+                    <p className="text-sm font-bold text-foreground-subtle mt-1">
                       {request.profile.major && request.profile.year
                         ? `${request.profile.major} • ${request.profile.year}`
                         : request.profile.major || request.profile.year || 'MSU Student'}
@@ -304,7 +304,7 @@ export default function RequestsPage() {
                     <button
                       onClick={() => cancelRequest(request.id)}
                       disabled={processing === request.id}
-                      className="w-full md:w-auto text-xs font-black uppercase tracking-widest text-gray-300 hover:text-red-500 transition-colors py-2 px-4 border border-transparent hover:border-red-100 rounded-xl"
+                      className="w-full md:w-auto text-xs font-black uppercase tracking-widest text-foreground-subtle hover:text-red-500 transition-colors py-2 px-4 border border-transparent hover:border-red-100 rounded-xl"
                     >
                       {processing === request.id ? '...' : 'Retract Signal'}
                     </button>
